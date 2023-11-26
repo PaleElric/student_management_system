@@ -1,5 +1,4 @@
 import pandas as pd
-import openpyxl
 
 
 dataframe = pd.read_excel('person_database/database.xlsx',sheet_name= ['student_database', 'instructor_database'])
@@ -7,28 +6,34 @@ dataframe = pd.read_excel('person_database/database.xlsx',sheet_name= ['student_
 student_df = dataframe.get('student_database')
 instructor_df = dataframe.get('instructor_databse')
 
-print(student_df[1])
+num = 1
 
-# class Person:
-#     def __init__(self, name, person_id):
-#         self.name = name
-#         self.person_id = person_id
+usr_name = student_df.at[num, 'Username']
+person_id = student_df.at[num, 'ID']
+grade = student_df.at[num, 'Grade']
+attendance = student_df.at[num, 'Attendance']
+
+class Person:
+    def __init__(self, name, person_id):
+        self.name = name
+        self.person_id = person_id
 
     
-#     def printname(self):
-#         print(self.name, self.person_id)
+    def printname(self):
+        print(self.name, self.person_id)
 
-# class Student(Person):
-#     def __init__(self, name, person_id, grades, attendance):
-#         super().__init__(name, person_id)
-#         self.grades = grades
-#         self.attendance = attendance
+class Student(Person):
+    def __init__(self, name, person_id):
+        super().__init__(name, person_id)
+        self.grades = grade
+        self.attendance = attendance
 
-# x = Student(student_df[1])
-# print(x.grades, x.attendance)
+x = Person(usr_name, person_id)
+xy = Student(usr_name, person_id)
+print(x.name, x.person_id, xy.grades, xy.attendance)
 
 # class Instructor(Person):
-#     def __init__(self, name, person_id, courses_taught):
+#     def __init__(self, name, person_id):
 #         super().__init__(name, person_id)
 #         self.courses_taught = courses_taught
 
