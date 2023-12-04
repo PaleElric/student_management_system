@@ -82,6 +82,21 @@ class Student(Person):
         for subject,grade in self.subject_grades.items():
             print(f'{subject}: {grade}')
 
+
+class Instructor(Person):
+    def __init__(self, name, person_id, crs_taught):
+        super().__init__(name, person_id)
+        self.crs_taught = crs_taught
+
+class Course(Instructor):
+    def __init__(self, name, person_id, crs_taught, crs_code, crs_name, credit, students):
+        super().__init__(name, person_id, crs_taught)
+        self.crs_code = crs_code
+        self.crs_name = crs_name
+        self.credit = credit
+        self.students = students
+
+
 floras_grades = {'Maths':65, 'History': 9}
 flora = Student(name="Florina", person_id=2, subject_grades=floras_grades)
 
@@ -99,22 +114,3 @@ print(flora.subject_grades)
 # print(flora.attendance)
 
 flora.display_details()
-
-
-class Instructor(Person):
-    def __init__(self, name, person_id, crs_taught):
-        super().__init__(name, person_id)
-        self.crs_taught = crs_taught
-
-class Course(Instructor):
-    def __init__(self, name, person_id, crs_taught, crs_code, crs_name, credit, students):
-        super().__init__(name, person_id, crs_taught)
-        self.crs_code = crs_code
-        self.crs_name = crs_name
-        self.credit = credit
-        self.students = students
-
-# y = Instructor('Isaac Asimov', 950, 'Mathematics')
-# z = Student('Leonard Nimoy', 960, 87, 'Excellent' )
-
-# print(y.printname())
