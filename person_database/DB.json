@@ -1,0 +1,11 @@
+{
+    "Student": "Kurt Wagner", 
+    "ID": 67572,
+    "Grades": {
+        "English": 79,
+        "Mathematics": 64,
+        "Biology": 74,
+        "Geology": 82
+    },
+    "Attendance": 90
+}

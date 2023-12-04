@@ -1,43 +1,120 @@
-import pandas as pd
+grades_initial = {
+    'Mathematics':None,
+    'History':None,
+    'English':None,
+    'Religious Studies': None,
+    'Chemistry': None,
+    'Biology': None,
+    'Geology':None
 
+}
 
-dataframe = pd.read_excel('person_database/database.xlsx',sheet_name= ['student_database', 'instructor_database'])
+full_attendance = 190
 
-student_df = dataframe.get('student_database')
-instructor_df = dataframe.get('instructor_databse')
-
-num = 1
-
-usr_name = student_df.at[num, 'Username']
-person_id = student_df.at[num, 'ID']
-grade = student_df.at[num, 'Grade']
-attendance = student_df.at[num, 'Attendance']
+def is_grade_valid(grade:int) -> bool:
+    if grade < 0 or grade > 100:
+        print(f"Something is wrong here! {grade} doesn't meet valid parameter!")
+        return False
+    return True
+    
+def valid_attendance(attendance:int) -> bool:
+    if attendance < 0 or attendance > full_attendance:
+        print('Attendance not within standard range!')
+        return False
+    return True
 
 class Person:
     def __init__(self, name, person_id):
         self.name = name
         self.person_id = person_id
 
-    
     def printname(self):
-        print(self.name, self.person_id)
+        return(self.name, self.person_id)
+    
+    def change_name(self, new_name:str):
+        if self.name == new_name:
+            print(f'{new_name} is already {self.name}')
+            return 
+        
+        self.name = new_name
+        print(f'{self.name} set.')
+
 
 class Student(Person):
-    def __init__(self, name, person_id):
+    def __init__(self, name,  person_id, subject_grades=grades_initial, attendance=full_attendance):
         super().__init__(name, person_id)
-        self.grades = grade
+        
+        self.subject_grades = subject_grades
+
         self.attendance = attendance
 
-x = Person(usr_name, person_id)
-xy = Student(usr_name, person_id)
-print(x.name, x.person_id, xy.grades, xy.attendance)
+    def update_grade(self, subject:str, grade:int):
+        if is_grade_valid(grade):
 
-# class Instructor(Person):
-#     def __init__(self, name, person_id):
-#         super().__init__(name, person_id)
-#         self.courses_taught = courses_taught
+            if subject not in self.subject_grades:
+                print(f'{self.name} not assigned for this subject {subject}!')
+                return 
 
-# class Course(Student, Instructor):
-#     def __init__(self, name, person_id, grades, attendance):
-#         super().__init__(name, person_id, grades, attendance)
+            self.subject_grades[subject] = grade
+
+        
+    def add_subject(self, new_subject, grade = None):
+        if grade and not is_grade_valid(grade):
+            return
+        
+
+        if new_subject in self.subject_grades:
+            print(f'{self.name} already assigned for {new_subject}!')
+        else:
+            self.subject_grades[new_subject] = grade
     
+    def update_attendance(self, new_attendance:int):
+        if not valid_attendance(new_attendance):
+            return
+
+        self.attendance = new_attendance
+        print(f'Attendance updated: {self.attendance}!')
+
+
+    def display_details(self):
+        print(f'Name: {self.name}, ID: {self.person_id}, Attendance: {self.attendance}')
+        print('Subjects-Grades: ')
+        for subject,grade in self.subject_grades.items():
+            print(f'{subject}: {grade}')
+
+floras_grades = {'Maths':65, 'History': 9}
+flora = Student(name="Florina", person_id=2, subject_grades=floras_grades)
+
+print(flora.subject_grades)
+
+# flora.update_grade('Maths', 100)
+# print(flora.subject_grades)
+# flora.add_subject('English', 81)
+# print(flora.subject_grades)
+# flora.add_subject('Chems')
+# print(flora.subject_grades)
+# print(flora.name)
+# print(flora.attendance)
+# flora.update_attendance(300)
+# print(flora.attendance)
+
+flora.display_details()
+
+
+class Instructor(Person):
+    def __init__(self, name, person_id, crs_taught):
+        super().__init__(name, person_id)
+        self.crs_taught = crs_taught
+
+class Course(Instructor):
+    def __init__(self, name, person_id, crs_taught, crs_code, crs_name, credit, students):
+        super().__init__(name, person_id, crs_taught)
+        self.crs_code = crs_code
+        self.crs_name = crs_name
+        self.credit = credit
+        self.students = students
+
+# y = Instructor('Isaac Asimov', 950, 'Mathematics')
+# z = Student('Leonard Nimoy', 960, 87, 'Excellent' )
+
+# print(y.printname())

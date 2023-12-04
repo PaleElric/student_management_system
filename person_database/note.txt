@@ -1,1 +1,1 @@
-#The database txt is to be used as an example for this exersise
+#the db files are not required they are mostly there for exersise/testing reasons
