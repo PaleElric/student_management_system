@@ -23,6 +23,12 @@ def valid_attendance(attendance:int) -> bool:
         return False
     return True
 
+def subject_exists(subject:bool):
+    if not subject in grades_initial:
+        print(f'{subject} does not exist!')
+        return False
+    return True
+
 class Person:
     def __init__(self, name, person_id):
         self.name = name
@@ -84,9 +90,18 @@ class Student(Person):
 
 
 class Instructor(Person):
-    def __init__(self, name, person_id, crs_taught):
+    def __init__(self, name, person_id, crs_taught = grades_initial):
         super().__init__(name, person_id)
         self.crs_taught = crs_taught
+
+    def new_crs_taught(self, new_crs=str:bool):
+        if new_crs and not subject_exists(new_crs):
+            return
+        
+        if new_crs in self.crs_taught:
+            print("The instructor is already teaching the course!")
+        else:
+            self.new_crs = new_crs
 
 class Course(Instructor):
     def __init__(self, name, person_id, crs_taught, crs_code, crs_name, credit, students):
@@ -97,11 +112,18 @@ class Course(Instructor):
         self.students = students
 
 
-floras_grades = {'Maths':65, 'History': 9}
+floras_grades = {'Mathematicss':65, 'History': 9}
 flora = Student(name="Florina", person_id=2, subject_grades=floras_grades)
 
-print(flora.subject_grades)
+isaac_courses = {'Mathematics': True}
+isaac = Instructor(name="Isaac", person_id=1, crs_taught=isaac_courses)
 
+print(flora.subject_grades)
+print(isaac.crs_taught)
+
+
+isaac.new_crs_taught('English')
+print(isaac.new_crs)
 # flora.update_grade('Maths', 100)
 # print(flora.subject_grades)
 # flora.add_subject('English', 81)
